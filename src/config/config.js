@@ -7,7 +7,8 @@ const _config = {
     JWT_EXPIRES_IN:process.env.JWT_EXPIRES_IN,
     REDIS_HOST:process.env.REDIS_HOST,
     REDIS_PORT:process.env.REDIS_PORT,
-    REDIS_PASSWORD:process.env.REDIS_PASSWORD
+    REDIS_PASSWORD:process.env.REDIS_PASSWORD,
+    GEMINI_API_KEY:process.env.GEMINI_API_KEY
 }
 const config = Object.freeze(_config)
 // we will acces the all cogig throw with  _config so we make it 
