@@ -15,7 +15,12 @@ export const  uploadFile = (fileBuffer) =>{
     const uploadStream = cloudinary
     .uploader
     .upload_stream({folder:"instagram"},(err,fileData)=>{
-        resolve({err,fileData})
+        resolve({
+            url:fileData.url,
+            public_id:fileData.public_id,
+            asset_id:fileData.asset_id,
+            format:fileData.format
+        })
     })
     Readable.from(fileBuffer).pipe(uploadStream)
 })
