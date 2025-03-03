@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
         type:String
     },
     media:{
-type:String,
+type:Object,
 required:[true,"media is required"]
     },
     author:{
@@ -13,6 +13,10 @@ required:[true,"media is required"]
         ref:'user',
         required:[true,"Author is required"]
     },
+    likesCount:{
+        type:Number,
+        default:0
+    }
 
 },
 {
@@ -42,5 +46,15 @@ postSchema.statics.getRecentPosts = async function (limit) {
     const posts = await this.find().sort({createAt:-1}).limit(limit);
     return posts
 }
+
+postSchema.statics.isValidPostId = async function(postId) {
+    if(!postId){
+        throw new Error("Postid is required")
+    }
+    const isValidPostId = mongoose.Types.ObjectId.isValid(postId)
+    console.log(isValidPostId)
+    return isValidPostId
+}
+
 const postModel  = mongoose.model("post",postSchema)
 export default postModel;
