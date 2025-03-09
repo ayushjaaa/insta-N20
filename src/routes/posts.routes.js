@@ -5,6 +5,7 @@ import *as userMidleware from '../middelwares/user.middelware.js'
 
 const router = Router() 
 router.post('/create',userMidleware.authUser,postMidleware.handleFileUpload,postController.createPost)
+router.patch('/like/:postID',userMidleware.authUser,postController.likePost)
+router.patch('/dislike/:postID',userMidleware.authUser,postController.dislikePost)
 
-router.patch("/like/:postId",userMidleware.authUser,postController.likePost)
 export default router

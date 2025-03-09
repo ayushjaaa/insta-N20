@@ -13,11 +13,11 @@ required:[true,"media is required"]
         ref:'user',
         required:[true,"Author is required"]
     },
-    likesCount:{
-        type:Number,
-        default:0
-    }
-
+likesCount:{
+    type:Number,
+    default:0
+}
+,
 },
 {
     timestamps:true
@@ -56,5 +56,24 @@ postSchema.statics.isValidPostId = async function(postId) {
     return isValidPostId
 }
 
+postSchema.static.isValidPostId = async (postId) =>{
+ if(!postId){
+    throw new Error("Post is required")
+ }
+ const isValidPostId = mongoose.Types.isValid(postId)
+ return isValidPostId
+}
+
+postSchema.method.updateLikeCount = async()=>{
+this.likesCount += 1
+await this.save()
+return this
+}
+
+postSchema.method.dicrenmentLikeCOnt = async()=>{
+    this.likesCount -= 1
+    await this.save()
+    return this
+}
 const postModel  = mongoose.model("post",postSchema)
 export default postModel;
