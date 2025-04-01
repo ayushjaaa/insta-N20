@@ -3,6 +3,7 @@ import postModel from "../models/post.model.js";
 import { generateCaptionFromImageBuffer } from "../services/ai.services.js";
 import { uploadFile } from "../services/cloud.storage.services.js";
 import likeModel from "../models/likemodel.js";
+import commentModel from "../models/comment.model.js";
 export const createPost = async(req,res,next) =>{
 try{
     const  imageBuffer = req.file?.buffer;
@@ -104,5 +105,33 @@ export const dislikePost = async(req,res)=>{
 
     }catch(error){
         console.log(error)
+    }
+}
+export const commonpost =async  ( req,res) =>{
+    try{
+const {post,text,parencomment} = req.body
+const isPostExist = await postModel.findById(post)
+if(!isPostExist){
+    return res.status(400).send("post doest exist")
+}
+if(parencomment){
+    const isparendCOmment  = await commentModel.findById(parencomment)
+    if(!parencomment){
+        return res.status(404).json({message:"pareenf t comment not found"})
+    }
+}
+const newComment = await commentModel.create({
+    post,
+    user:req.user._id,
+    text,
+    parencomment
+})
+await isPostExist.incrementCommentCount()
+res.send({
+    coment:newComment,
+    message:"comment create succefully"
+})
+    }catch(error){
+
     }
 }

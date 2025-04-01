@@ -18,6 +18,10 @@ likesCount:{
     default:0
 }
 ,
+commentCount:{
+    type:Number,
+    default:0
+},
 },
 {
     timestamps:true
@@ -72,6 +76,17 @@ return this
 
 postSchema.method.dicrenmentLikeCOnt = async()=>{
     this.likesCount -= 1
+    await this.save()
+    return this
+}
+
+postSchema.method.incrementCommentCount = async()=>{
+    this.commentCount += 1
+    await this.save()
+    return this
+}
+postSchema.method.decrementCommentCount = async()=>{
+    this.commentCount -=1
     await this.save()
     return this
 }
